@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Download, Trash2, Eye } from "lucide-react";
-import { mockFiles, formatBytes, formatDate } from "@/lib/mockData";
+import { Search, Download, Trash2 } from "lucide-react";
+import { formatBytes, formatDate } from "@/lib/mockData";
+import { useFiles } from "@/contexts/FileContext";
 import {
   Table,
   TableBody,
@@ -18,8 +19,9 @@ import { useToast } from "@/hooks/use-toast";
 export default function Files() {
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
+  const { files, deleteFile } = useFiles();
 
-  const filteredFiles = mockFiles.filter(
+  const filteredFiles = files.filter(
     (file) =>
       file.filename.toLowerCase().includes(searchQuery.toLowerCase()) ||
       file.user.toLowerCase().includes(searchQuery.toLowerCase())
@@ -32,7 +34,8 @@ export default function Files() {
     });
   };
 
-  const handleDelete = (filename: string) => {
+  const handleDelete = (id: string, filename: string) => {
+    deleteFile(id);
     toast({
       title: "File deleted",
       description: `${filename} has been removed from the system`,
@@ -102,7 +105,7 @@ export default function Files() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleDelete(file.filename)}
+                        onClick={() => handleDelete(file.id, file.filename)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

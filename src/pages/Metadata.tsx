@@ -1,9 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatBytes, formatDate } from "@/lib/mockData";
+import { useFiles } from "@/contexts/FileContext";
 import { Badge } from "@/components/ui/badge";
-import { mockFiles, formatBytes, formatDate } from "@/lib/mockData";
 import { FileText, HardDrive, Copy, Calendar, User } from "lucide-react";
 
 export default function Metadata() {
+  const { files } = useFiles();
+  
   return (
     <div className="space-y-6">
       <div>
@@ -14,7 +17,7 @@ export default function Metadata() {
       </div>
 
       <div className="grid gap-4">
-        {mockFiles.map((file) => (
+        {files.map((file) => (
           <Card key={file.id}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

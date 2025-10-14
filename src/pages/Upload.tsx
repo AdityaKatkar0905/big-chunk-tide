@@ -6,12 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Upload as UploadIcon, File as FileIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { UploadProgress } from "@/types/file";
+import { UploadProgress, FileMetadata } from "@/types/file";
+import { useFiles } from "@/contexts/FileContext";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Upload() {
   const [selectedFile, setSelectedFile] = useState<globalThis.File | null>(null);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
+  const [selectedUser, setSelectedUser] = useState<string>("aditya");
   const { toast } = useToast();
+  const { addFile } = useFiles();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -51,6 +55,24 @@ export default function Upload() {
               : u
           )
         );
+
+        // Add file to the system
+        const newFile: FileMetadata = {
+          id: Date.now().toString(),
+          filename: selectedFile.name,
+          size: selectedFile.size,
+          user: selectedUser,
+          uploadDate: new Date(),
+          storageNode: `node-${Math.floor(Math.random() * 5) + 1}`,
+          replicationNodes: [
+            `node-${Math.floor(Math.random() * 5) + 1}`,
+            `node-${Math.floor(Math.random() * 5) + 1}`,
+          ],
+          mimeType: selectedFile.type || "application/octet-stream",
+          chunks: Math.ceil(selectedFile.size / (10 * 1024 * 1024)),
+        };
+        addFile(newFile);
+
         toast({
           title: "Upload complete",
           description: `${selectedFile.name} has been uploaded successfully`,
@@ -83,6 +105,20 @@ export default function Upload() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="user">Select User</Label>
+            <Select value={selectedUser} onValueChange={setSelectedUser}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="aditya">Aditya</SelectItem>
+                <SelectItem value="kanish">Kanish</SelectItem>
+                <SelectItem value="ganesh">Ganesh</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="file">Select File</Label>
             <div className="flex gap-2">

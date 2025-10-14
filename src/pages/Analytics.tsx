@@ -1,8 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockFiles, mockStorageNodes, formatBytes } from "@/lib/mockData";
+import { mockStorageNodes, formatBytes } from "@/lib/mockData";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { useFiles } from "@/contexts/FileContext";
 
 export default function Analytics() {
+  const { files } = useFiles();
+  
   // Storage distribution data
   const storageData = mockStorageNodes.map((node) => ({
     name: node.name,
@@ -11,7 +14,7 @@ export default function Analytics() {
   }));
 
   // User upload statistics
-  const userStats = mockFiles.reduce((acc, file) => {
+  const userStats = files.reduce((acc, file) => {
     acc[file.user] = (acc[file.user] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -22,12 +25,12 @@ export default function Analytics() {
   }));
 
   // File size distribution
-  const fileSizeData = mockFiles.map((file) => ({
+  const fileSizeData = files.map((file) => ({
     name: file.filename.substring(0, 20) + "...",
     size: file.size / (1024 * 1024 * 1024), // GB
   }));
 
-  const COLORS = ["hsl(var(--primary))", "hsl(var(--accent))", "hsl(var(--secondary))", "hsl(var(--muted))", "hsl(var(--destructive))"];
+  const COLORS = ["hsl(217.2, 91.2%, 59.8%)", "hsl(142.1, 76.2%, 36.3%)", "hsl(262.1, 83.3%, 57.8%)", "hsl(346.8, 77.2%, 49.8%)", "hsl(24.6, 95%, 53.1%)"];
 
   const totalStorage = mockStorageNodes.reduce((acc, node) => acc + node.used, 0);
   const totalCapacity = mockStorageNodes.reduce((acc, node) => acc + node.capacity, 0);

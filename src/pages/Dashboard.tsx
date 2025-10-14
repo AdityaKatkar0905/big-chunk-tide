@@ -1,16 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, HardDrive, Server, Activity } from "lucide-react";
-import { mockFiles, mockStorageNodes, formatBytes } from "@/lib/mockData";
+import { mockStorageNodes, formatBytes } from "@/lib/mockData";
 import { Progress } from "@/components/ui/progress";
+import { useFiles } from "@/contexts/FileContext";
 
 export default function Dashboard() {
-  const totalFiles = mockFiles.length;
+  const { files } = useFiles();
+  const totalFiles = files.length;
   const totalStorage = mockStorageNodes.reduce((acc, node) => acc + node.used, 0);
   const totalCapacity = mockStorageNodes.reduce((acc, node) => acc + node.capacity, 0);
   const activeNodes = mockStorageNodes.filter((n) => n.status === "online").length;
   const utilizationPercent = (totalStorage / totalCapacity) * 100;
 
-  const recentFiles = mockFiles.slice(0, 3);
+  const recentFiles = files.slice(0, 3);
 
   return (
     <div className="space-y-6">
