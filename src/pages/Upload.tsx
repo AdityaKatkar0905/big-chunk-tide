@@ -3,24 +3,54 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Upload as UploadIcon, File as FileIcon } from "lucide-react";
+import { Upload as UploadIcon, File as FileIcon, UserPlus } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { UploadProgress, FileMetadata } from "@/types/file";
 import { useFiles } from "@/contexts/FileContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Upload() {
   const [selectedFile, setSelectedFile] = useState<globalThis.File | null>(null);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
   const [selectedUser, setSelectedUser] = useState<string>("aditya");
+  const [newUserName, setNewUserName] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { addFile } = useFiles();
+  const { addFile, users, addUser } = useFiles();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
+  };
+
+  const handleAddUser = () => {
+    if (!newUserName.trim()) {
+      toast({
+        title: "Invalid user name",
+        description: "Please enter a valid user name",
+        variant: "destructive",
+      });
+      return;
+    }
+    addUser(newUserName.trim());
+    setSelectedUser(newUserName.trim().toLowerCase());
+    setNewUserName("");
+    setDialogOpen(false);
+    toast({
+      title: "User added",
+      description: `${newUserName} has been added to the system`,
+    });
   };
 
   const handleUpload = () => {
@@ -107,16 +137,53 @@ export default function Upload() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="user">Select User</Label>
-            <Select value={selectedUser} onValueChange={setSelectedUser}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="aditya">Aditya</SelectItem>
-                <SelectItem value="kanish">Kanish</SelectItem>
-                <SelectItem value="ganesh">Ganesh</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex gap-2">
+              <Select value={selectedUser} onValueChange={setSelectedUser}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {users.map((user) => (
+                    <SelectItem key={user} value={user}>
+                      {user.charAt(0).toUpperCase() + user.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <UserPlus className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add New User</DialogTitle>
+                    <DialogDescription>
+                      Enter the name of the new user to add to the system.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="username">User Name</Label>
+                      <Input
+                        id="username"
+                        placeholder="Enter user name"
+                        value={newUserName}
+                        onChange={(e) => setNewUserName(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleAddUser()}
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleAddUser}>Add User</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
 
           <div className="space-y-2">
