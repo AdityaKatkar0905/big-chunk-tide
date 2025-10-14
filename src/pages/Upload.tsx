@@ -3,13 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Upload as UploadIcon, File } from "lucide-react";
+import { Upload as UploadIcon, File as FileIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { UploadProgress } from "@/types/file";
 
 export default function Upload() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<globalThis.File | null>(null);
   const [uploads, setUploads] = useState<UploadProgress[]>([]);
   const { toast } = useToast();
 
@@ -101,7 +101,7 @@ export default function Upload() {
 
           {selectedFile && (
             <div className="rounded-lg border p-4 flex items-center gap-3">
-              <File className="h-8 w-8 text-muted-foreground" />
+              <FileIcon className="h-8 w-8 text-muted-foreground" />
               <div className="flex-1">
                 <p className="font-medium">{selectedFile.name}</p>
                 <p className="text-sm text-muted-foreground">

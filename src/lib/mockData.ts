@@ -5,7 +5,7 @@ export const mockFiles: FileMetadata[] = [
     id: "1",
     filename: "sales_data_2024.csv",
     size: 524288000, // 500MB
-    user: "Aditya",
+    user: "aditya",
     uploadDate: new Date("2024-01-15"),
     storageNode: "node-1",
     replicationNodes: ["node-2", "node-3"],
@@ -16,7 +16,7 @@ export const mockFiles: FileMetadata[] = [
     id: "2",
     filename: "customer_analytics.parquet",
     size: 1073741824, // 1GB
-    user: "Aditya",
+    user: "aditya",
     uploadDate: new Date("2024-01-20"),
     storageNode: "node-2",
     replicationNodes: ["node-1", "node-4"],
@@ -27,7 +27,7 @@ export const mockFiles: FileMetadata[] = [
     id: "3",
     filename: "logs_archive.tar.gz",
     size: 2147483648, // 2GB
-    user: "Sarah",
+    user: "kanish",
     uploadDate: new Date("2024-01-25"),
     storageNode: "node-3",
     replicationNodes: ["node-2", "node-5"],
@@ -38,7 +38,7 @@ export const mockFiles: FileMetadata[] = [
     id: "4",
     filename: "ml_model_weights.h5",
     size: 786432000, // 750MB
-    user: "Aditya",
+    user: "aditya",
     uploadDate: new Date("2024-02-01"),
     storageNode: "node-4",
     replicationNodes: ["node-1", "node-3"],
@@ -49,7 +49,7 @@ export const mockFiles: FileMetadata[] = [
     id: "5",
     filename: "video_dataset.zip",
     size: 3221225472, // 3GB
-    user: "Mike",
+    user: "ganesh",
     uploadDate: new Date("2024-02-05"),
     storageNode: "node-5",
     replicationNodes: ["node-2", "node-4"],
