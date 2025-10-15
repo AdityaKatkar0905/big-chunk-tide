@@ -15,7 +15,14 @@ const FileContext = createContext<FileContextType | undefined>(undefined);
 export function FileProvider({ children }: { children: React.ReactNode }) {
   const [files, setFiles] = useState<FileMetadata[]>(() => {
     const stored = localStorage.getItem("uploaded-files");
-    return stored ? JSON.parse(stored) : mockFiles;
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return parsed.map((file: any) => ({
+        ...file,
+        uploadDate: new Date(file.uploadDate)
+      }));
+    }
+    return mockFiles;
   });
 
   const [users, setUsers] = useState<string[]>(() => {
