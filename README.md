@@ -1,4 +1,14 @@
-# Welcome to your Lovable project
+# FileScale - Distributed File Storage System
+
+A web-based dashboard for managing files in a simulated distributed storage system with multiple users and storage nodes.
+
+## Features
+
+- **Dashboard**: System overview with storage metrics and node status
+- **File Upload**: Upload files with user assignment and progress tracking
+- **File Management**: Search, view, download, and delete files
+- **Metadata View**: Detailed file information including replication nodes
+- **Analytics**: Visual insights with charts for storage and user statistics
 
 ## Project info
 
@@ -29,12 +39,18 @@ git clone <YOUR_GIT_URL>
 # Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
+# Step 3: Install the necessary dependencies (REQUIRED).
 npm i
+# or use bun for faster installation
+bun install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
+# or
+bun dev
 ```
+
+**IMPORTANT**: After cloning, you MUST run `npm i` (or `bun install`) to install all dependencies before running the dev server. Without this step, the application pages will not load correctly.
 
 **Edit a file directly in GitHub**
 
