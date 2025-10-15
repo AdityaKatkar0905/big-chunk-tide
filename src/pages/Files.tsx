@@ -28,9 +28,23 @@ export default function Files() {
   );
 
   const handleDownload = (filename: string) => {
+    // Create mock file content
+    const content = `Filename: ${filename}\nDownloaded: ${new Date().toISOString()}\n\nThis is a sample file from the distributed storage system.`;
+    
+    // Create blob and download
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
     toast({
-      title: "Download started",
-      description: `Downloading ${filename}...`,
+      title: "Download complete",
+      description: `${filename} has been downloaded`,
     });
   };
 
