@@ -109,7 +109,10 @@ export function formatBytes(bytes: number): string {
   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(dateInput: Date | string | number | null | undefined): string {
+  if (!dateInput) return "N/A";
+  const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+  if (isNaN(date.getTime())) return "N/A";
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
