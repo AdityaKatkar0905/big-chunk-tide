@@ -1,5 +1,5 @@
 import { Home, Upload, FileText, Database, BarChart3 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -23,10 +23,10 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <div className="px-6 py-4">
+        <Link to="/" className="px-6 py-4 block hover:bg-sidebar-accent/50 transition-colors cursor-pointer">
           <h2 className="text-xl font-bold text-sidebar-primary">FileScale</h2>
           <p className="text-xs text-muted-foreground">Big Data Management</p>
-        </div>
+        </Link>
         
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
